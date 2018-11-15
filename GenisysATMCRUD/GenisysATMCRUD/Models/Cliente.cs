@@ -30,7 +30,7 @@ namespace GenisysATM.Models
         /// <returns>Un objeto de tipo Cliente.</returns>
         public static Cliente ObtenerCliente(string identidad)
         {
-            Conexion conexion = new Conexion(@"(local)", "GenisysATM_V2");
+            Conexion conexion = new Conexion(@"(local)\sqlexpress", "GenisysATM_V2");
             string sql;
             Cliente resultado = new Cliente();
 
@@ -82,7 +82,7 @@ namespace GenisysATM.Models
         /// </summary>
         public static bool InsertarCliente(Cliente nuevoCliente)
         {
-            Conexion conexion = new Conexion(@"(local)", "GenisysATM_V2");
+            Conexion conexion = new Conexion(@"(local)\sqlexpress", "GenisysATM_V2");
             SqlCommand cmd = conexion.EjecutarComando("sp_insertarCliente");
 
             // Establecer el comando como un Stored Procedure
