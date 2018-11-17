@@ -1,6 +1,6 @@
 ﻿namespace GenisysATMCRUD
 {
-    partial class Form1
+    partial class FrmCliente
     {
         /// <summary>
         /// Variable del diseñador necesaria.
@@ -41,6 +41,8 @@
             this.txttelefono = new System.Windows.Forms.TextBox();
             this.txtcelular = new System.Windows.Forms.TextBox();
             this.btnAgregar = new System.Windows.Forms.Button();
+            this.btnActualizar = new System.Windows.Forms.Button();
+            this.lstClientes = new System.Windows.Forms.ListBox();
             this.SuspendLayout();
             // 
             // lblnombre
@@ -117,6 +119,7 @@
             this.txtidentidad.Name = "txtidentidad";
             this.txtidentidad.Size = new System.Drawing.Size(289, 22);
             this.txtidentidad.TabIndex = 8;
+            this.txtidentidad.Leave += new System.EventHandler(this.txtidentidad_Leave);
             // 
             // txtdireccion
             // 
@@ -149,11 +152,33 @@
             this.btnAgregar.UseVisualStyleBackColor = true;
             this.btnAgregar.Click += new System.EventHandler(this.btnAgregar_Click);
             // 
-            // Form1
+            // btnActualizar
+            // 
+            this.btnActualizar.Location = new System.Drawing.Point(235, 322);
+            this.btnActualizar.Name = "btnActualizar";
+            this.btnActualizar.Size = new System.Drawing.Size(129, 36);
+            this.btnActualizar.TabIndex = 13;
+            this.btnActualizar.Text = "Actualizar";
+            this.btnActualizar.UseVisualStyleBackColor = true;
+            this.btnActualizar.Click += new System.EventHandler(this.btnActualizar_Click);
+            // 
+            // lstClientes
+            // 
+            this.lstClientes.FormattingEnabled = true;
+            this.lstClientes.ItemHeight = 16;
+            this.lstClientes.Location = new System.Drawing.Point(448, 63);
+            this.lstClientes.Name = "lstClientes";
+            this.lstClientes.Size = new System.Drawing.Size(226, 212);
+            this.lstClientes.TabIndex = 14;
+            this.lstClientes.Click += new System.EventHandler(this.lstCliente_Click);
+            // 
+            // FrmCliente
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(636, 434);
+            this.ClientSize = new System.Drawing.Size(691, 382);
+            this.Controls.Add(this.lstClientes);
+            this.Controls.Add(this.btnActualizar);
             this.Controls.Add(this.btnAgregar);
             this.Controls.Add(this.txtcelular);
             this.Controls.Add(this.txttelefono);
@@ -167,8 +192,9 @@
             this.Controls.Add(this.lblidentidad);
             this.Controls.Add(this.lblapellido);
             this.Controls.Add(this.lblnombre);
-            this.Name = "Form1";
+            this.Name = "FrmCliente";
             this.Text = "Cliente";
+            this.Load += new System.EventHandler(this.FrmCliente_Load_1);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -189,6 +215,8 @@
         private System.Windows.Forms.TextBox txttelefono;
         private System.Windows.Forms.TextBox txtcelular;
         private System.Windows.Forms.Button btnAgregar;
+        private System.Windows.Forms.Button btnActualizar;
+        private System.Windows.Forms.ListBox lstClientes;
     }
 }
 
