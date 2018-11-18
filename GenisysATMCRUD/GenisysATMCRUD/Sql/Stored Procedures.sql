@@ -1,6 +1,7 @@
 USE GenisysATM_V2
 GO
 
+-- TABLA Cliente
 CREATE PROCEDURE sp_insertarCliente(
 	@nombre nvarchar(100),
 	@apellido nvarchar(100),
@@ -41,3 +42,27 @@ BEGIN
 
 	DELETE FROM ATM.Cliente WHERE id = @codigo;
 END
+GO
+
+
+-- TABLA ServicioPublico
+CREATE PROCEDURE sp_AgregarServicioPublico(
+	@descripcion NVARCHAR(150)
+)
+AS
+BEGIN
+	INSERT INTO ATM.ServicioPublico(descripcion) VALUES (@descripcion);
+END
+GO
+
+CREATE PROCEDURE sp_ActualizarServicioPublico(
+	@descripcion NVARCHAR(150),
+	@descripcionNueva NVARCHAR(150)
+)
+AS
+BEGIN
+ DECLARE @codigo INT
+ SET @codigo = (SELECT id FROM ATM.ServicioPublico WHERE descripcion=@descripcion);
+ UPDATE ATM.ServicioPublico SET descripcion = @descripcionNueva WHERE id = @codigo;
+END
+GO
