@@ -30,11 +30,11 @@
         {
             this.btnCliente = new System.Windows.Forms.Button();
             this.gbATM = new System.Windows.Forms.GroupBox();
-            this.btnServicioClient = new System.Windows.Forms.Button();
-            this.btnServicioPublico = new System.Windows.Forms.Button();
-            this.btnConfiguracion = new System.Windows.Forms.Button();
-            this.btnTarjetaCredito = new System.Windows.Forms.Button();
             this.btnCuentaCliente = new System.Windows.Forms.Button();
+            this.btnTarjetaCredito = new System.Windows.Forms.Button();
+            this.btnConfiguracion = new System.Windows.Forms.Button();
+            this.btnServicioPublico = new System.Windows.Forms.Button();
+            this.btnServicioClient = new System.Windows.Forms.Button();
             this.btnSalir = new System.Windows.Forms.Button();
             this.gbATM.SuspendLayout();
             this.SuspendLayout();
@@ -64,15 +64,33 @@
             this.gbATM.TabStop = false;
             this.gbATM.Text = "Cajero Automático";
             // 
-            // btnServicioClient
+            // btnCuentaCliente
             // 
-            this.btnServicioClient.Location = new System.Drawing.Point(377, 72);
-            this.btnServicioClient.Name = "btnServicioClient";
-            this.btnServicioClient.Size = new System.Drawing.Size(132, 46);
-            this.btnServicioClient.TabIndex = 1;
-            this.btnServicioClient.Text = "Servicio Cliente";
-            this.btnServicioClient.UseVisualStyleBackColor = true;
-            this.btnServicioClient.Click += new System.EventHandler(this.btnServicioClient_Click);
+            this.btnCuentaCliente.Location = new System.Drawing.Point(45, 173);
+            this.btnCuentaCliente.Name = "btnCuentaCliente";
+            this.btnCuentaCliente.Size = new System.Drawing.Size(132, 46);
+            this.btnCuentaCliente.TabIndex = 5;
+            this.btnCuentaCliente.Text = "Cuenta Cliente";
+            this.btnCuentaCliente.UseVisualStyleBackColor = true;
+            this.btnCuentaCliente.Click += new System.EventHandler(this.btnCuentaCliente_Click);
+            // 
+            // btnTarjetaCredito
+            // 
+            this.btnTarjetaCredito.Location = new System.Drawing.Point(212, 173);
+            this.btnTarjetaCredito.Name = "btnTarjetaCredito";
+            this.btnTarjetaCredito.Size = new System.Drawing.Size(132, 46);
+            this.btnTarjetaCredito.TabIndex = 4;
+            this.btnTarjetaCredito.Text = "Tarjeta Crédito";
+            this.btnTarjetaCredito.UseVisualStyleBackColor = true;
+            // 
+            // btnConfiguracion
+            // 
+            this.btnConfiguracion.Location = new System.Drawing.Point(377, 173);
+            this.btnConfiguracion.Name = "btnConfiguracion";
+            this.btnConfiguracion.Size = new System.Drawing.Size(132, 46);
+            this.btnConfiguracion.TabIndex = 3;
+            this.btnConfiguracion.Text = "Configuración";
+            this.btnConfiguracion.UseVisualStyleBackColor = true;
             // 
             // btnServicioPublico
             // 
@@ -84,32 +102,15 @@
             this.btnServicioPublico.UseVisualStyleBackColor = true;
             this.btnServicioPublico.Click += new System.EventHandler(this.btnServicioPublico_Click);
             // 
-            // btnConfiguracion
+            // btnServicioClient
             // 
-            this.btnConfiguracion.Location = new System.Drawing.Point(377, 173);
-            this.btnConfiguracion.Name = "btnConfiguracion";
-            this.btnConfiguracion.Size = new System.Drawing.Size(132, 46);
-            this.btnConfiguracion.TabIndex = 3;
-            this.btnConfiguracion.Text = "Configuración";
-            this.btnConfiguracion.UseVisualStyleBackColor = true;
-            // 
-            // btnTarjetaCredito
-            // 
-            this.btnTarjetaCredito.Location = new System.Drawing.Point(212, 173);
-            this.btnTarjetaCredito.Name = "btnTarjetaCredito";
-            this.btnTarjetaCredito.Size = new System.Drawing.Size(132, 46);
-            this.btnTarjetaCredito.TabIndex = 4;
-            this.btnTarjetaCredito.Text = "Tarjeta Crédito";
-            this.btnTarjetaCredito.UseVisualStyleBackColor = true;
-            // 
-            // btnCuentaCliente
-            // 
-            this.btnCuentaCliente.Location = new System.Drawing.Point(45, 173);
-            this.btnCuentaCliente.Name = "btnCuentaCliente";
-            this.btnCuentaCliente.Size = new System.Drawing.Size(132, 46);
-            this.btnCuentaCliente.TabIndex = 5;
-            this.btnCuentaCliente.Text = "Cuenta Cliente";
-            this.btnCuentaCliente.UseVisualStyleBackColor = true;
+            this.btnServicioClient.Location = new System.Drawing.Point(377, 72);
+            this.btnServicioClient.Name = "btnServicioClient";
+            this.btnServicioClient.Size = new System.Drawing.Size(132, 46);
+            this.btnServicioClient.TabIndex = 1;
+            this.btnServicioClient.Text = "Servicio Cliente";
+            this.btnServicioClient.UseVisualStyleBackColor = true;
+            this.btnServicioClient.Click += new System.EventHandler(this.btnServicioClient_Click);
             // 
             // btnSalir
             // 

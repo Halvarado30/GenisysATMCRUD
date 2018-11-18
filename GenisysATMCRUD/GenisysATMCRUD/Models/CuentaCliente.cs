@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 // Agregar los namespaces necesarios
 using System.Data;
 using System.Data.SqlClient;
+using System.Windows.Forms;
 
 namespace GenisysATM.Models
 {
@@ -17,6 +18,7 @@ namespace GenisysATM.Models
         public int idCliente { get; set; }
         public decimal saldo { get; set; }
         public string pin { get; set; }
+        public string nuevoNumero { get; set; }
 
         // Constructores
         public CuentaCliente() { }
@@ -53,6 +55,8 @@ namespace GenisysATM.Models
                     laCuenta.idCliente = rdr.GetInt16(1);
                     laCuenta.saldo = rdr.GetDecimal(2);
                     laCuenta.pin = rdr.GetString(3);
+
+                    laCuenta.numero = laCuenta.numero.TrimEnd();
                 }
 
                 return laCuenta;
@@ -136,6 +140,110 @@ namespace GenisysATM.Models
             }
             finally
             {
+                conn.CerrarConexion();
+            }
+        }
+
+        /// <summary>
+        /// Lista las cuentas pertenecientes al Cliente
+        /// </summary>
+        /// <param name="Nombre"></param>
+        /// <returns></returns>
+        public static List<CuentaCliente> LeerCuentas(string Nombre)
+        {
+            // Lista de tipo CuentaCliente
+            List<CuentaCliente> resultado = new List<CuentaCliente>();
+
+            // Instanciamos la conexión
+            Conexion conn = new Conexion(@"(local)\sqlexpress","GenisysATM_V2");
+            string sql = @"DECLARE @codigoCliente INT
+                           SET @codigoCliente = (SELECT id FROM ATM.Cliente WHERE nombres=@Cliente);
+                           SELECT * FROM ATM.CuentaCliente WHERE idCliente=@codigoCliente;";
+            SqlCommand cmd = conn.EjecutarComando(sql);
+
+            try
+            {
+                using (cmd)
+                {
+                    cmd.Parameters.Add("@Cliente", SqlDbType.NVarChar, 100).Value = Nombre;
+                }
+
+                // Establecer Conexión
+                conn.EstablecerConexion();
+
+                // Ejecutar comando con SqlDataReader
+                SqlDataReader rdr = cmd.ExecuteReader();
+
+                while (rdr.Read())
+                {
+                    CuentaCliente cuenta = new CuentaCliente();
+
+                    cuenta.numero = rdr.GetString(0);
+                    cuenta.idCliente = rdr.GetInt32(1);
+                    cuenta.saldo = rdr.GetDecimal(2);
+                    cuenta.pin = rdr.GetString(3);
+
+                    resultado.Add(cuenta);
+                }
+                return resultado;
+            }
+            catch (SqlException)
+            {
+                return resultado;
+            }
+            finally
+            {
+                // Cerrar Conexión
+                conn.CerrarConexion();
+            }
+        }
+
+        /// <summary>
+        /// Se encarga de almacenar los datos de Cuenta cliente en la base de datos
+        /// </summary>
+        /// <param name="lacuenta"></param>
+        /// <param name="cliente"></param>
+        /// <returns></returns>
+        public static bool AgregarCuenta(CuentaCliente lacuenta, string cliente)
+        {
+            Conexion conn = new Conexion(@"(local)\sqlexpress", "GenisysATM_V2");
+            SqlCommand cmd = conn.EjecutarComando("sp_AgregarCuenta");
+
+            // Definimos el tipo de comando
+            cmd.CommandType = CommandType.StoredProcedure;
+
+            // Agregamos los parametros correspondientes
+            cmd.Parameters.Add(new SqlParameter("@cliente", SqlDbType.NVarChar, 100));
+            cmd.Parameters["@cliente"].Value = cliente;
+
+            cmd.Parameters.Add(new SqlParameter("@saldo", SqlDbType.Decimal));
+            cmd.Parameters["@saldo"].Value = lacuenta.saldo;
+
+            cmd.Parameters.Add(new SqlParameter("@pin", SqlDbType.Char, 4));
+            cmd.Parameters["@pin"].Value = lacuenta.pin;
+
+            cmd.Parameters.Add(new SqlParameter("@numero", SqlDbType.Char, 14));
+            cmd.Parameters["@numero"].Value = lacuenta.numero;
+
+            try
+            {
+                // Establecer Conexión
+                conn.EstablecerConexion();
+
+                // Ejecutar comando
+                cmd.ExecuteNonQuery();
+
+                return true;
+            }
+            catch (SqlException ex)
+            {
+                MessageBox.Show(ex.Errors[0].ToString());
+                MessageBox.Show(ex.Message + ex.StackTrace + "Detalle de excepción");
+                return false;
+            }
+            finally
+            {
+                // Cerrar Conexión
                 conn.CerrarConexion();
             }
         }

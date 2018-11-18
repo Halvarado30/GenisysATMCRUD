@@ -51,6 +51,12 @@
     <Compile Include="FrmCliente.Designer.cs">
       <DependentUpon>FrmCliente.cs</DependentUpon>
     </Compile>
+    <Compile Include="FrmCuentaCliente.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmCuentaCliente.Designer.cs">
+      <DependentUpon>FrmCuentaCliente.cs</DependentUpon>
+    </Compile>
     <Compile Include="FrmServicioCliente.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -82,6 +88,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="FrmCliente.resx">
       <DependentUpon>FrmCliente.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmCuentaCliente.resx">
+      <DependentUpon>FrmCuentaCliente.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FrmServicioCliente.resx">
       <DependentUpon>FrmServicioCliente.cs</DependentUpon>

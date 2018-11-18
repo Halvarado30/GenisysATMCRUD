@@ -80,11 +80,11 @@ GO
 
 USE GenisysATM_V2
 GO
---Procedimiento almacenado para insertar un servicio a un cliente.
+--TABLA ServicioCliente
 CREATE PROCEDURE sp_AgregarServicioCliente(
-@cliente NVARCHAR(100),
-@servicio NVARCHAR(100),
-@saldo DECIMAL(10,2)
+	@cliente NVARCHAR(100),
+	@servicio NVARCHAR(100),
+	@saldo DECIMAL(10,2)
 )
 AS 
 BEGIN
@@ -97,11 +97,11 @@ BEGIN
 	INSERT INTO ATM.ServicioCliente(idCliente,idServicio,saldo) VALUES(@codigoCliente,@codigoServicio,@saldo);
 END
 GO
---Procedimiento almacenado para actualizar un servicioCliente
+
 CREATE PROCEDURE sp_ActualizarServicioCliente(
-@cliente NVARCHAR(100),
-@servicio NVARCHAR(100),
-@saldo DECIMAL(10,2)
+	@cliente NVARCHAR(100),
+	@servicio NVARCHAR(100),
+	@saldo DECIMAL(10,2)
 )
 AS 
 BEGIN
@@ -118,7 +118,6 @@ BEGIN
 END
 GO
 
---Procedimiento almacenado para Eliminar un servicioCliente
 CREATE PROCEDURE sp_EliminarServicioCliente(
 @cliente NVARCHAR(100),
 @servicio NVARCHAR(100)
@@ -135,5 +134,135 @@ BEGIN
 	SET @codigo = (SELECT id FROM ATM.ServicioCliente WHERE idCliente=@codigoCliente and idServicio=@codigoServicio);
 
 	DELETE FROM ATM.ServicioCliente WHERE id=@codigo;
+END
+GO
+
+-- TABLA Configuracion
+CREATE PROCEDURE sp_AgregarConfiguracion(
+@nombre NCHAR(50),
+@descripcion NCHAR(200),
+@valor NCHAR(50)
+)
+AS
+BEGIN
+	INSERT INTO ATM.Configuracion(appKey,valor,descripcion) VALUES (@nombre,@valor,@descripcion);
+END
+GO
+
+CREATE PROCEDURE sp_ActualizarConfiguracion(
+@nombre NCHAR(50),
+@nombrenuevo NCHAR(50),
+@descripcion NCHAR(200),
+@valor NCHAR(50)
+)
+AS
+BEGIN
+	DECLARE @codigo INT
+	SET @codigo = (SELECT id FROM ATM.Configuracion WHERE appKey =@nombre); 
+	UPDATE ATM.Configuracion SET appKey=@nombrenuevo,descripcion=@descripcion,valor=@valor WHERE id = @codigo;
+END
+GO
+
+CREATE PROCEDURE sp_EliminarConfiguracion(
+@nombre NCHAR(50)
+
+)
+AS
+BEGIN
+	DECLARE @codigo INT
+	SET @codigo = (SELECT id FROM ATM.Configuracion WHERE appKey =@nombre); 
+	DELETE FROM ATM.Configuracion WHERE id=@codigo;
+END
+GO
+
+-- TABLA TarjetaCredito
+CREATE PROCEDURE sp_AgregarTarjeta(
+	@descripcion NVARCHAR(100),
+	@monto DECIMAL(12,2),
+	@limite DECIMAL(12,2),
+	@cliente NVARCHAR(100)
+)
+AS
+BEGIN
+	DECLARE @codigoCliente INT
+	SET @codigoCliente = (SELECT id FROM ATM.Cliente WHERE nombres=@cliente);
+
+	INSERT INTO ATM.TarjetaCredito(descripcion,monto,limite,idCliente) VALUES (@descripcion,@monto,@limite,@codigoCliente);
+END
+GO
+
+CREATE PROCEDURE sp_ActualizarTarjeta(
+	@descripcion NVARCHAR(100),
+	@nuevaDescripcion NVARCHAR(100),
+	@monto DECIMAL(12,2),
+	@limite DECIMAL(12,2),
+	@cliente NVARCHAR(100)
+)
+AS
+BEGIN
+	DECLARE @codigoCliente INT
+	SET @codigoCliente = (SELECT id FROM ATM.Cliente WHERE nombres=@cliente);
+	DECLARE @codigoTarjeta INT
+	SET @codigoTarjeta = (SELECT id FROM ATM.TarjetaCredito WHERE idCliente=@codigoCliente and descripcion=@descripcion);
+
+	UPDATE ATM.TarjetaCredito SET descripcion=@nuevaDescripcion,monto=@monto,limite=@limite,idCliente=@codigoCliente WHERE id=@codigoTarjeta;
+END
+GO
+
+CREATE PROCEDURE sp_EliminarTarjeta(
+	@descripcion NVARCHAR(100),
+	@cliente NVARCHAR(100)
+)
+AS
+BEGIN
+	DECLARE @codigoCliente INT
+	SET @codigoCliente = (SELECT id FROM ATM.Cliente WHERE nombres=@cliente);
+	DECLARE @codigoTarjeta INT
+	SET @codigoTarjeta = (SELECT id FROM ATM.TarjetaCredito WHERE idCliente=@codigoCliente and descripcion=@descripcion);
+
+	DELETE FROM ATM.TarjetaCredito WHERE id=@codigoTarjeta;
+END
+GO
+
+-- TABLA CuentaCliente
+CREATE PROCEDURE sp_AgregarCuenta(
+	@numero CHAR(14),
+	@cliente NVARCHAR(100),
+	@saldo DECIMAL(10,2),
+	@pin CHAR(4)
+)
+AS
+BEGIN
+	DECLARE @codigoCliente INT
+	SET @codigoCliente =(SELECT id FROM ATM.Cliente WHERE nombres=@cliente);
+
+	INSERT INTO ATM.CuentaCliente(numero,idCliente,saldo,pin) VALUES (@numero,@codigoCliente,@saldo,@pin);
+
+END
+GO
+
+CREATE PROCEDURE sp_ActualizarCuentaCliente(
+	@numero CHAR(14),
+	@cliente NVARCHAR(100),
+	@saldo DECIMAL(10,2),
+	@pin CHAR(4),
+	@nuevoNumero CHAR(14)
+)
+AS
+BEGIN
+	DECLARE @codigoCliente INT
+	SET @codigoCliente =(SELECT id FROM ATM.Cliente WHERE nombres=@cliente);
+
+	UPDATE ATM.CuentaCliente SET saldo=@saldo, pin=@pin, numero=@nuevoNumero WHERE numero=@numero;
+
+END
+GO
+
+CREATE PROCEDURE sp_EliminarCuenta(
+	@numero CHAR(14)
+)
+AS
+BEGIN
+	DELETE FROM ATM.CuentaCliente WHERE numero=@numero;
 END
 GO
