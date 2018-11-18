@@ -16,6 +16,7 @@ namespace GenisysATM.Models
         // Propiedades
         public int id { get; set; }
         public string descripcion { get; set; }
+        public string correccion { get; set; }
 
         // Constructores
         public ServicioPublico() { }
@@ -31,7 +32,7 @@ namespace GenisysATM.Models
             ServicioPublico resultado = new ServicioPublico();
 
             // Consulta SQL
-            sql = @"SELECT * FROM
+            sql = @"SELECT *
                     FROM ATM.ServicioPublico
                     WHERE descripcion = @descripcion";
 
@@ -54,9 +55,8 @@ namespace GenisysATM.Models
                 }
                 return resultado;
             }
-            catch (SqlException)
+            catch (SqlException ex)
             {
-
                 return resultado;
             }
             finally
@@ -69,7 +69,7 @@ namespace GenisysATM.Models
         public static List<ServicioPublico> Leer()
         {
             // Lista tipo ServicioPublico
-            List<ServicioPublico> result = new List<ServicioPublico>();
+            List<ServicioPublico> resultado = new List<ServicioPublico>();
 
             // Iniciamos Conexión
             Conexion conn = new Conexion(@"(local)\sqlexpress", "GenisysATM_V2");
@@ -94,13 +94,13 @@ namespace GenisysATM.Models
                     Serv.descripcion = rdr.GetString(1);
 
                     // Agregar los datos a la lista
-                    result.Add(Serv);
+                    resultado.Add(Serv);
                 }
-                return result;
+                return resultado;
             }
             catch (SqlException)
             {
-                return result;
+                return resultado;
             }
             finally
             {
@@ -142,6 +142,48 @@ namespace GenisysATM.Models
             }
             finally
             {
+                conn.CerrarConexion();
+            }
+        }
+
+        ///<summary>
+        /// Método encargado de actualizar los datos de los ServiciosPublicos
+        /// </summary>
+        public static bool ActualizarServicioPublico(ServicioPublico elservicio)
+        {
+            Conexion conn = new Conexion(@"(local)\sqlexpress", "GenisysATM_V2");
+            SqlCommand cmd = conn.EjecutarComando("sp_ActualizarServicioPublico");
+
+            // Definir el tipo de comando
+            cmd.CommandType = CommandType.StoredProcedure;
+
+            // Agregar los parámetros requeridos
+            cmd.Parameters.Add(new SqlParameter("@descripcion", SqlDbType.NVarChar, 100));
+            cmd.Parameters["@descripcion"].Value = elservicio.correccion;
+
+            cmd.Parameters.Add(new SqlParameter("@correccion", SqlDbType.NVarChar, 100));
+            cmd.Parameters["@correccion"].Value = elservicio.descripcion;
+
+            try
+            {
+                // Establecer la conexión
+                conn.EstablecerConexion();
+
+                // Ejecutar el comando
+                cmd.ExecuteNonQuery();
+
+                return true;
+            }
+            catch (SqlException ex)
+            {
+
+                MessageBox.Show(ex.Errors[0].ToString());
+                MessageBox.Show(ex.Message + ex.StackTrace + "Detalles de la excepción");
+                return false;
+            }
+            finally
+            {
+                // Cerrar la conexión
                 conn.CerrarConexion();
             }
         }

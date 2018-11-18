@@ -65,6 +65,7 @@
             this.lstServicioPub.ScrollAlwaysVisible = true;
             this.lstServicioPub.Size = new System.Drawing.Size(216, 116);
             this.lstServicioPub.TabIndex = 2;
+            this.lstServicioPub.Click += new System.EventHandler(this.lstServicioPub_Click);
             // 
             // btnAgregar
             // 
@@ -84,6 +85,7 @@
             this.btnActualizar.TabIndex = 4;
             this.btnActualizar.Text = "Actualizar";
             this.btnActualizar.UseVisualStyleBackColor = true;
+            this.btnActualizar.Click += new System.EventHandler(this.btnActualizar_Click);
             // 
             // btnEliminar
             // 
