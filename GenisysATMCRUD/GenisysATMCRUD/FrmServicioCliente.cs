@@ -31,10 +31,10 @@ namespace GenisysATMCRUD
             lstClientes.SelectedIndex = -1;
             lstServiciosP.SelectedIndex = -1;
             lstServiciosC.Items.Clear();
-            Datos();
-            Datos2();
             btnActualizar.Enabled = false;
             btnEliminar.Enabled = false;
+            Datos();
+            Datos2();
         }
 
         private void btnAgregar_Click(object sender, EventArgs e)
@@ -149,6 +149,25 @@ namespace GenisysATMCRUD
                 if (ServicioCliente.ActualizarClienteServicio(lstClientes.SelectedItem.ToString(), lstServiciosC.SelectedItem.ToString(), actScliente))
                 {
                     MessageBox.Show("Registro Actualizado correctamente");
+                    Limpiar();
+                }
+            }
+        }
+
+        private void btnEliminar_Click(object sender, EventArgs e)
+        {
+            if (lstClientes.SelectedIndex == -1)
+            {
+                MessageBox.Show("Debe seleccionar un cliente");
+            }
+            else
+            {
+                // Instanciar la Clase ServicioCliente
+                ServicioCliente deleteC = new ServicioCliente();
+                deleteC.saldo = Convert.ToDecimal(txtsaldo.Text);
+                if (ServicioCliente.EliminarClienteServicio(lstClientes.SelectedItem.ToString(), lstServiciosC.SelectedItem.ToString()))
+                {
+                    MessageBox.Show("Registro eliminado correctamente");
                     Limpiar();
                 }
             }
