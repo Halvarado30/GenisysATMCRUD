@@ -133,5 +133,25 @@ namespace GenisysATMCRUD
                 txtsaldo.Text = "Error";
             }
         }
+
+        private void btnActualizar_Click(object sender, EventArgs e)
+        {
+            if (txtsaldo.Text == "" || lstClientes.SelectedIndex == -1)
+            {
+                MessageBox.Show("Debe seleccionar un cliente e Ingresar un valor al campo de Saldo");
+            }
+            else
+            {
+                // Instanciar la Clase ServicioCliente
+                ServicioCliente actScliente = new ServicioCliente();
+                actScliente.saldo = Convert.ToDecimal(txtsaldo.Text);
+
+                if (ServicioCliente.ActualizarClienteServicio(lstClientes.SelectedItem.ToString(), lstServiciosC.SelectedItem.ToString(), actScliente))
+                {
+                    MessageBox.Show("Registro Actualizado correctamente");
+                    Limpiar();
+                }
+            }
+        }
     }
 }

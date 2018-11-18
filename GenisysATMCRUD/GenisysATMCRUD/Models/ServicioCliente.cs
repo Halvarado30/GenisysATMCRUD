@@ -71,6 +71,54 @@ namespace GenisysATM.Models
             }
 
         } 
+
+        /// <summary>
+        /// Se encarga de almacenar los cambios realizados
+        /// en el servicio de un cliente
+        /// </summary>
+        /// <param name="elcliente"></param>
+        /// <param name="elservicio"></param>
+        /// <param name="sc"></param>
+        /// <returns></returns>
+        public static bool ActualizarClienteServicio(string elcliente, string elservicio, ServicioCliente sc)
+        {
+            Conexion conn = new Conexion(@"(local)\sqlexpress", "GenisysATM_V2");
+            SqlCommand cmd = conn.EjecutarComando("sp_ActualizarServicioCliente");
+
+            // Definimos el tipo de comando
+            cmd.CommandType = CommandType.StoredProcedure;
+
+            // Agregamos los parámetros necesarios
+            cmd.Parameters.Add(new SqlParameter("@cliente", SqlDbType.NVarChar, 100));
+            cmd.Parameters["@cliente"].Value = elcliente;
+
+            cmd.Parameters.Add(new SqlParameter("@servicio", SqlDbType.NVarChar, 100));
+            cmd.Parameters["@servicio"].Value  = elservicio;
+
+            cmd.Parameters.Add(new SqlParameter("@saldo", SqlDbType.Decimal));
+            cmd.Parameters["@saldo"].Value = sc.saldo;
+
+            try
+            {
+                // Establecemos la conexión
+                conn.EstablecerConexion();
+
+                // Ejecutamos el comando
+                cmd.ExecuteNonQuery();
+
+                return true;
+            }
+            catch (SqlException ex)
+            {
+                MessageBox.Show(ex.Message + ex.StackTrace + "Detalles de la excepción");
+                return false;
+            }
+            finally
+            {
+                conn.CerrarConexion();
+            }
+        }
+
         // Se encarga de listar todos los servicios
         // ligados a un cliente que están
         // en la base de datos
