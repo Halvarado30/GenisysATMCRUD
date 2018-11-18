@@ -52,7 +52,7 @@ namespace GenisysATM.Models
                 while (rdr.Read())
                 {
                     laCuenta.numero = rdr.GetString(0);
-                    laCuenta.idCliente = rdr.GetInt16(1);
+                    laCuenta.idCliente = Convert.ToInt32(rdr[1]);
                     laCuenta.saldo = rdr.GetDecimal(2);
                     laCuenta.pin = rdr.GetString(3);
 
@@ -244,6 +244,58 @@ namespace GenisysATM.Models
             finally
             {
                 // Cerrar Conexión
+                conn.CerrarConexion();
+            }
+        }
+
+        /// <summary>
+        /// Se encarga de realizar los cambios realizados en la aplicación
+        /// </summary>
+        /// <param name="lacuenta"></param>
+        /// <param name="cliente"></param>
+        /// <returns></returns>
+        public static bool ActualizarCuenta(CuentaCliente lacuenta, string cliente)
+        {
+            Conexion conn = new Conexion(@"(local)\sqlexpress", "GenisysATM_V2");
+            SqlCommand cmd = conn.EjecutarComando("sp_ActualizarCuentaCliente");
+
+            // Definir el tipo de comando
+            cmd.CommandType = CommandType.StoredProcedure;
+
+            // Agregar los parámetros necesarios
+            cmd.Parameters.Add(new SqlParameter("@cliente", SqlDbType.NVarChar, 100));
+            cmd.Parameters["@cliente"].Value = cliente;
+
+            cmd.Parameters.Add(new SqlParameter("@saldo", SqlDbType.Decimal));
+            cmd.Parameters["@saldo"].Value = lacuenta.saldo;
+
+            cmd.Parameters.Add(new SqlParameter("@pin", SqlDbType.Char, 4));
+            cmd.Parameters["@pin"].Value = lacuenta.pin;
+
+            cmd.Parameters.Add(new SqlParameter("@numero", SqlDbType.Char, 14));
+            cmd.Parameters["@numero"].Value = lacuenta.numero;
+
+            cmd.Parameters.Add(new SqlParameter("@nuevoNumero", SqlDbType.Char, 14));
+            cmd.Parameters["@nuevoNumero"].Value = lacuenta.nuevoNumero;
+
+            try
+            {
+                // Establecer Conexión
+                conn.EstablecerConexion();
+
+                // Ejecutar Comando
+                cmd.ExecuteNonQuery();
+
+                return true;
+            }
+            catch (SqlException ex)
+            {
+                MessageBox.Show(ex.Message + ex.StackTrace + "Detalles de la excepción");
+                return false;
+            }
+            finally
+            {
+                // Cerrar Conexión con el servidor
                 conn.CerrarConexion();
             }
         }

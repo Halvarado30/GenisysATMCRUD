@@ -124,5 +124,38 @@ namespace GenisysATMCRUD
         {
             limpiar();
         }
+
+        private void btnActualizar_Click(object sender, EventArgs e)
+        {
+            // verificar que los campos esten llenos
+            if (txtnumero.Text == "" || txtPIN.Text == "" || txtsaldo.Text == "")
+            {
+                MessageBox.Show("Debe llenar los detalles de la cuenta");
+            }
+            else
+            {
+                // Instanciar la clase CuentaCliente
+                CuentaCliente cuenta = new CuentaCliente();
+                cuenta.nuevoNumero = txtnumero.Text;
+                cuenta.numero = lstCuentas.SelectedItem.ToString();
+                cuenta.pin = txtPIN.Text;
+                cuenta.saldo = Convert.ToDecimal(txtsaldo.Text);
+
+                if (CuentaCliente.ActualizarCuenta(cuenta, lstClientes.SelectedItem.ToString()))
+                {
+                    MessageBox.Show("Cuenta Actualiza correctamente");
+                    limpiar();
+                }
+                else
+                {
+                    MessageBox.Show("Ocurrió un error en la actualización");
+                }
+            }
+        }
+
+        private void btnEliminar_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
