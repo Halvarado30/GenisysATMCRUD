@@ -186,6 +186,7 @@
             this.Controls.Add(this.lblnumero);
             this.Controls.Add(this.lblCliente);
             this.Name = "FrmCuentaCliente";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Cuenta Cliente";
             this.Load += new System.EventHandler(this.FrmCuentaCliente_Load);
             this.ResumeLayout(false);

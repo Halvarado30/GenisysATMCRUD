@@ -155,7 +155,28 @@ namespace GenisysATMCRUD
 
         private void btnEliminar_Click(object sender, EventArgs e)
         {
+            // Verificar que el campo necesario para la eliminación
+            // no se encuentre en blanco
+            if (lstCuentas.SelectedIndex == -1)
+            {
+                MessageBox.Show("Debe seleccionar una cuenta");
+            }
+            else
+            {
+                // Instancia de la Clase CuentaCliente
+                CuentaCliente deleteC = new CuentaCliente();
+                deleteC.numero = lstCuentas.SelectedItem.ToString();
 
+                if (CuentaCliente.EliminarCuenta(deleteC))
+                {
+                    MessageBox.Show("La cuenta se eliminó correctamente");
+                    limpiar();
+                }
+                else
+                {
+                    MessageBox.Show("Ocurrió un error, revise");
+                }
+            }
         }
     }
 }

@@ -299,5 +299,44 @@ namespace GenisysATM.Models
                 conn.CerrarConexion();
             }
         }
+
+        /// <summary>
+        /// Se encarga de eliminar el registro de la tabla CuentaCliente
+        /// </summary>
+        /// <param name="lacuenta"></param>
+        /// <returns></returns>
+        public static bool EliminarCuenta(CuentaCliente lacuenta)
+        {
+            Conexion conn = new Conexion(@"(local)\sqlexpress", "GenisysATM_V2");
+            SqlCommand cmd = conn.EjecutarComando("sp_EliminarCuenta");
+
+            // Definir el tipo de comando
+            cmd.CommandType = CommandType.StoredProcedure;
+
+            // Parámetros necesarios
+            cmd.Parameters.Add(new SqlParameter("@numero", SqlDbType.Char, 14));
+            cmd.Parameters["@numero"].Value = lacuenta.numero;
+
+            try
+            {
+                // Establecer la conexión
+                conn.EstablecerConexion();
+
+                // Ejecutar el comando
+                cmd.ExecuteNonQuery();
+
+                return true;
+            }
+            catch (SqlException ex)
+            {
+                MessageBox.Show(ex.Message + ex.StackTrace + "Detalles de la excepción");
+                return false;
+            }
+            finally
+            {
+                // Se cierra la conexión
+                conn.CerrarConexion();
+            }
+        }
     }
 }
