@@ -147,7 +147,20 @@ namespace GenisysATMCRUD
 
         private void btnEliminar_Click(object sender, EventArgs e)
         {
+            // Instancia Clase TarjetaCredito
+            TarjetaCredito deleteT = new TarjetaCredito();
 
+            deleteT.descripcion = lstTarjetas.SelectedItem.ToString();
+
+            if (TarjetaCredito.EliminarTarjeta(lstClientes.SelectedItem.ToString(), deleteT))
+            {
+                MessageBox.Show("Registro eliminado con éxito");
+                limpiar();
+            }
+            else
+            {
+                MessageBox.Show("Ocurrió un error en la eliminación");
+            }
         }
 
         private void btnSalir_Click(object sender, EventArgs e)

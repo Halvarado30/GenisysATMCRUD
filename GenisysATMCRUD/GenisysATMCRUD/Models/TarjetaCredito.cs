@@ -212,7 +212,39 @@ namespace GenisysATM.Models
 
         public static bool EliminarTarjeta(string elcliente, TarjetaCredito latarjeta)
         {
-            return true;
+            Conexion conn = new Conexion(@"(local)\sqlexpress", "GenisysATM_V2");
+            SqlCommand cmd = conn.EjecutarComando("sp_EliminarTarjeta");
+
+            // Definimos el tipo de comando
+            cmd.CommandType = CommandType.StoredProcedure;
+
+            // Agregar los parámetros necesarios
+            cmd.Parameters.Add(new SqlParameter("@descripcion", SqlDbType.NVarChar, 100));
+            cmd.Parameters["@descripcion"].Value = latarjeta.descripcion;
+
+            cmd.Parameters.Add(new SqlParameter("@cliente", SqlDbType.NVarChar, 100));
+            cmd.Parameters["@cliente"].Value = elcliente;
+
+            try
+            {
+                // Establecer la conexión
+                conn.EstablecerConexion();
+
+                // Ejecutar Comando
+                cmd.ExecuteNonQuery();
+
+                return true;
+            }
+            catch (SqlException ex)
+            {
+                MessageBox.Show(ex.Message + ex.StackTrace + "Detalle de la excepción");
+                return false;
+            }
+            finally
+            {
+                // Cerrar la conexión
+                conn.CerrarConexion();
+            }
         }
     }
 }
