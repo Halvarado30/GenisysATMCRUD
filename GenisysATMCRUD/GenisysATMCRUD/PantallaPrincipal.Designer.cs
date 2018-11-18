@@ -72,6 +72,7 @@
             this.btnServicioClient.TabIndex = 1;
             this.btnServicioClient.Text = "Servicio Cliente";
             this.btnServicioClient.UseVisualStyleBackColor = true;
+            this.btnServicioClient.Click += new System.EventHandler(this.btnServicioClient_Click);
             // 
             // btnServicioPublico
             // 

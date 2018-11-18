@@ -238,6 +238,52 @@ namespace GenisysATM.Models
             
         }
 
+        public static List<Cliente> LeerTodos()
+        {
+            // Lista una de tipo de clientes
+            List<Cliente> resultados = new List<Cliente>();
+
+            //instanciamos la conexion
+            Conexion conexion = new Conexion(@"(local)\sqlexpress", "GenisysATM_V2");
+            string sql = @"SELECT identidad, nombres
+                    FROM ATM.Cliente";
+
+            SqlCommand cmd = conexion.EjecutarComando(sql);
+
+            try
+            {
+                // Establecer la conexión
+                conexion.EstablecerConexion();
+
+                // Ejecutar el query via un ExecuteReader
+                SqlDataReader rdr = cmd.ExecuteReader();
+
+                //Recorremos los elementos que se encuentra guardados
+                // en la lista tipo cliente
+                while (rdr.Read())
+                {
+                    Cliente cli = new Cliente();
+                    // Asignar los valores de Reader al objeto Cliente
+                    cli.identidad = rdr.GetString(0);
+                    cli.nombres = rdr.GetString(1);
+
+                    // Agregar el Cliente a la List<Cliete>
+                    resultados.Add(cli);
+                }
+
+                return resultados;
+            }
+            catch (SqlException)
+            {
+                return resultados;
+            }
+            finally
+            {
+                // Cerrar la conexión
+                conexion.CerrarConexion();
+            }
+        }
+
         // Método que se encargará de obtener los datos de los clientes
         // basandose en el parametro de nombre.
 

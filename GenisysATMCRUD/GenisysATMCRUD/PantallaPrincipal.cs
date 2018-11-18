@@ -33,5 +33,11 @@ namespace GenisysATMCRUD
             FrmServicioPublico ServPu = new FrmServicioPublico();
             ServPu.ShowDialog();
         }
+
+        private void btnServicioClient_Click(object sender, EventArgs e)
+        {
+            FrmServicioCliente scliente = new FrmServicioCliente();
+            scliente.ShowDialog();
+        }
     }
 }
