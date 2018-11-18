@@ -43,12 +43,14 @@ namespace GenisysATMCRUD
             txtdireccion.Text = "";
             txttelefono.Text = "";
             txtcelular.Text = "";
+            lstClientes.ResetText();
             txtnombres.Focus();
         }
 
         private void lstCliente_Click(object sender, EventArgs e)
         {
             btnActualizar.Enabled = true;
+            btnEliminar.Enabled = true;
             btnAgregar.Enabled = false;
             Cliente elCliente = new Cliente();
             elCliente = Cliente.ObtenerCliente2(lstClientes.SelectedItem.ToString());
@@ -65,6 +67,7 @@ namespace GenisysATMCRUD
         {
             datos();
             btnActualizar.Enabled = false;
+            btnEliminar.Enabled = false;
             btnAgregar.Enabled = true;
         }
 
@@ -149,6 +152,15 @@ namespace GenisysATMCRUD
             {
                 MessageBox.Show("Ha ocurrido un error con el procedimiento");
             }
+            btnAgregar.Enabled = true;
+            txtnombres.Text = "";
+            txtapellidos.Text = "";
+            txtidentidad.Text = "";
+            txtdireccion.Text = "";
+            txttelefono.Text = "";
+            txtcelular.Text = "";
+            txtnombres.Focus();
+            lstClientes.Refresh();
         }
     }
 }

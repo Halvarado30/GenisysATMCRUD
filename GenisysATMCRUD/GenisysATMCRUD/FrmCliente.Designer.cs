@@ -217,6 +217,7 @@
             this.Controls.Add(this.lblapellido);
             this.Controls.Add(this.lblnombre);
             this.Name = "FrmCliente";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Cliente";
             this.Load += new System.EventHandler(this.FrmCliente_Load_1);
             this.ResumeLayout(false);
