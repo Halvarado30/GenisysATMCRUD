@@ -188,5 +188,38 @@ namespace GenisysATM.Models
             }
         }
         
+        public static bool EliminarServicioPublico(ServicioPublico elservicio)
+        {
+            // Definir la conexión
+            Conexion conn = new Conexion(@"(local)\sqlexpress", "GenisysATM_V2");
+
+            // Se envia el comando
+            SqlCommand cmd = conn.EjecutarComando("sp_EliminarServicioPublico");
+            cmd.CommandType = CommandType.StoredProcedure;
+
+            // Agregar los parámetros necesarios
+            cmd.Parameters.Add(new SqlParameter("@descripcion", SqlDbType.NVarChar, 100));
+            cmd.Parameters["@descripcion"].Value = elservicio.descripcion;
+
+            try
+            {
+                // Establecer Conexión
+                conn.EstablecerConexion();
+
+                // Ejecutar comando
+                cmd.ExecuteNonQuery();
+
+                return true;
+            }
+            catch (SqlException ex)
+            {
+                MessageBox.Show(ex.Message + ex.StackTrace + "Detalles de la excepción");
+                return false;
+            }
+            finally
+            {
+                conn.CerrarConexion();
+            }
+        }
     }
 }

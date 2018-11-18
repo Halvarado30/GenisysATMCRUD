@@ -132,5 +132,28 @@ namespace GenisysATMCRUD
                 txtdescripcion.Text = serv.descripcion;
             }
         }
+
+        private void btnEliminar_Click(object sender, EventArgs e)
+        {
+            if (lstServicioPub.SelectedIndex == -1)
+            {
+                MessageBox.Show("Debe seleccionar un dato");
+            }
+            else
+            {
+                // Instanciar la clase ServicioPublico
+                ServicioPublico eliminar = new ServicioPublico();
+                eliminar.descripcion = txtdescripcion.Text;
+                if (ServicioPublico.EliminarServicioPublico(eliminar))
+                {
+                    MessageBox.Show("Dato eliminado correctamente");
+                    limpiar();
+                }
+                else
+                {
+                    MessageBox.Show("ERROR en la eliminación del dato");
+                }
+            }
+        }
     }
 }
