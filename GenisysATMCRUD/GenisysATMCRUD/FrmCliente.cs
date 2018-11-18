@@ -37,19 +37,13 @@ namespace GenisysATMCRUD
             {
                 MessageBox.Show("Ha ocurrido un problema en la inserción de los datos");
             }
-        }
-
-        // En el caso de querer rellenar los campos mediante 
-        // la inserción de la identidad
-        private void txtidentidad_Leave(object sender, EventArgs e)
-        {
-            Cliente elCliente = new Cliente();
-            elCliente = Cliente.ObtenerCliente(txtidentidad.Text);
-
-            txtnombres.Text = elCliente.nombres;
-            txtapellidos.Text = elCliente.apellidos;
-            btnActualizar.Enabled = true;
-            btnAgregar.Enabled = false;
+            txtnombres.Text = "";
+            txtapellidos.Text = "";
+            txtidentidad.Text = "";
+            txtdireccion.Text = "";
+            txttelefono.Text = "";
+            txtcelular.Text = "";
+            txtnombres.Focus();
         }
 
         private void lstCliente_Click(object sender, EventArgs e)
@@ -61,17 +55,30 @@ namespace GenisysATMCRUD
 
             txtnombres.Text = elCliente.nombres;
             txtapellidos.Text = elCliente.apellidos;
+            txtidentidad.Text = elCliente.identidad;
+            txtdireccion.Text = elCliente.direccion;
+            txttelefono.Text = elCliente.telefono;
+            txtcelular.Text = elCliente.celular;
         }
 
         private void FrmCliente_Load_1(object sender, EventArgs e)
         {
+            datos();
             btnActualizar.Enabled = false;
             btnAgregar.Enabled = true;
+        }
+
+        public void datos()
+        {
             // cargamos los datos al listbox
             Cliente nuevo = new Cliente();
 
             // Creamos la lista
             List<Cliente> lista = Cliente.ListarClienteTodos();
+
+            // Limpiar el listBox
+            lstClientes.Items.Clear();
+
             if (lista.Any())
             {
                 lista.ForEach(cliente => lstClientes.Items.Add(cliente.nombres.ToString()));
@@ -102,6 +109,46 @@ namespace GenisysATMCRUD
                 MessageBox.Show("ha ocurrido un  error en la actualización", "Control de clientes", MessageBoxButtons.OK);
             }
             btnAgregar.Enabled = true;
+            txtnombres.Text = "";
+            txtapellidos.Text = "";
+            txtidentidad.Text = "";
+            txtdireccion.Text = "";
+            txttelefono.Text = "";
+            txtcelular.Text = "";
+            txtnombres.Focus();
+            lstClientes.Refresh();
+        }
+
+        private void txtidentidad_Leave(object sender, EventArgs e)
+        {
+            if (txtidentidad.Text == "")
+            {
+                btnActualizar.Enabled = false;
+                btnAgregar.Enabled = true;
+            }
+        }
+
+        private void btnSalir_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+        private void btnEliminar_Click(object sender, EventArgs e)
+        {
+            // Instanciar la clase cliente
+            Cliente Eliminado = new Cliente();
+            Eliminado.nombres = txtnombres.Text;
+            Eliminado.identidad = txtidentidad.Text;
+
+            // Verificamos que el método EliminarCliente funcione
+            if (Cliente.EliminarCliente(Eliminado))
+            {
+                MessageBox.Show("El registro del cliente ha sido eliminado con éxito");
+            }
+            else
+            {
+                MessageBox.Show("Ha ocurrido un error con el procedimiento");
+            }
         }
     }
 }

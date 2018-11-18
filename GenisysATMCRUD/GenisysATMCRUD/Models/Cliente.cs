@@ -144,7 +144,7 @@ namespace GenisysATM.Models
             cmd.Parameters["@nombre"].Value = elCliente.nombres;
             cmd.Parameters.Add(new SqlParameter("@apellido", SqlDbType.NVarChar, 100));
             cmd.Parameters["@apellido"].Value = elCliente.apellidos;
-            cmd.Parameters.Add(new SqlParameter("@direccion", SqlDbType.Char, 13));
+            cmd.Parameters.Add(new SqlParameter("@direccion", SqlDbType.NVarChar, 2000));
             cmd.Parameters["@direccion"].Value = elCliente.direccion;
             cmd.Parameters.Add(new SqlParameter("@telefono", SqlDbType.Char, 9));
             cmd.Parameters["@telefono"].Value = elCliente.telefono;
@@ -288,5 +288,47 @@ namespace GenisysATM.Models
 
         }
 
+        // Método Eliminar Cliente
+        public static bool EliminarCliente(Cliente elcliente)
+        {
+            // Establecer conexión
+            Conexion conn = new Conexion(@"(local)\sqlexpress", "GenisysATM_V2");
+
+            // Definir el comando
+            SqlCommand cmd = conn.EjecutarComando("sp_EliminarCliente");
+
+            // Definir tipo de comando
+            cmd.CommandType = CommandType.StoredProcedure;
+
+            // Agregar los parámetros necesarios
+            cmd.Parameters.Add(new SqlParameter("@identidad", SqlDbType.Char, 13));
+            cmd.Parameters["@identidad"].Value = elcliente.identidad;
+
+            cmd.Parameters.Add(new SqlParameter("@nombre", SqlDbType.NVarChar, 100));
+            cmd.Parameters["@nombre"].Value = elcliente.nombres;
+
+            // verificamos si el cliente yatiene un registro
+            Cliente verifica = new Cliente();
+            verifica = Cliente.ObtenerCliente(elcliente.identidad);
+
+
+            try
+            {
+                    conn.EstablecerConexion();
+                    cmd.ExecuteNonQuery();
+                    return true;
+
+            }
+            catch (SqlException ex)
+            {
+                MessageBox.Show(ex.Message + ex.StackTrace + "Detalles de la excepción");
+                return false;
+            }
+            finally
+            {
+                // Cerramos la conexión
+                conn.CerrarConexion();
+            }
+        }
     }
 }
