@@ -120,7 +120,29 @@ namespace GenisysATMCRUD
 
         private void btnActualizar_Click(object sender, EventArgs e)
         {
+            if (txtmonto.Text == "" || txtlimite.Text == "" || txtdecripcion.Text == "" || lstClientes.SelectedIndex == -1)
+            {
+                MessageBox.Show("Debe seleccionar un Cliente y llenar el resto de los campos a editar");
+            }
+            else
+            {
+                // Instancia de Clase TarjetaCredito
+                TarjetaCredito actualizartarjeta = new TarjetaCredito();
+                actualizartarjeta.monto = Convert.ToDecimal(txtmonto.Text);
+                actualizartarjeta.limite = Convert.ToDecimal(txtlimite.Text);
+                actualizartarjeta.descripcion = lstTarjetas.SelectedItem.ToString();
+                actualizartarjeta.nuevaDescripcion = txtdecripcion.Text;
 
+                if (TarjetaCredito.ActualizarTarjeta(lstClientes.SelectedItem.ToString(), actualizartarjeta))
+                {
+                    MessageBox.Show("Registro actualizado con éxito");
+                    limpiar();
+                }
+                else
+                {
+                    MessageBox.Show("Ha ocurrido un error, Revise");
+                }
+            }
         }
 
         private void btnEliminar_Click(object sender, EventArgs e)

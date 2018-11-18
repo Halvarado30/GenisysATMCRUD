@@ -164,8 +164,50 @@ namespace GenisysATM.Models
 
         public static bool ActualizarTarjeta(string elcliente, TarjetaCredito latarjeta)
         {
+            Conexion conn = new Conexion(@"(local)\sqlexpress", "GenisysATM_V2");
+            SqlCommand cmd = conn.EjecutarComando("sp_ActualizarTarjeta");
 
-            return true;
+            // Definimos el tipo de comando
+            cmd.CommandType = CommandType.StoredProcedure;
+
+            // Definir los parámetros necesarios
+            cmd.Parameters.Add(new SqlParameter("@descripcion", SqlDbType.NVarChar, 100));
+            cmd.Parameters["@descripcion"].Value = latarjeta.descripcion;
+
+            cmd.Parameters.Add(new SqlParameter("@monto", SqlDbType.Decimal));
+            cmd.Parameters["@monto"].Value = latarjeta.monto;
+
+            cmd.Parameters.Add(new SqlParameter("@limite", SqlDbType.Decimal));
+            cmd.Parameters["@limite"].Value = latarjeta.limite;
+
+            cmd.Parameters.Add(new SqlParameter("@cliente", SqlDbType.NVarChar, 100));
+            cmd.Parameters["@cliente"].Value = elcliente;
+
+            cmd.Parameters.Add(new SqlParameter("@nuevaDescripcion", SqlDbType.NVarChar, 100));
+            cmd.Parameters["@nuevaDescripcion"].Value = latarjeta.nuevaDescripcion;
+
+            try
+            {
+                // Establecer la conexión
+                conn.EstablecerConexion();
+
+                // ejecutamos el comando
+                cmd.ExecuteNonQuery();
+
+                return true;
+
+            }
+            catch (SqlException ex)
+            {
+                MessageBox.Show(ex.Errors[0].ToString());
+                MessageBox.Show(ex.Message + ex.StackTrace + "Detalles de la excepción");
+                return false;
+            }
+            finally
+            {
+                // Cerrar la conexión
+                conn.CerrarConexion();
+            }
         }
 
         public static bool EliminarTarjeta(string elcliente, TarjetaCredito latarjeta)
