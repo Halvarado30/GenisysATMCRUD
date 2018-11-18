@@ -82,6 +82,7 @@
             this.btnTarjetaCredito.TabIndex = 4;
             this.btnTarjetaCredito.Text = "Tarjeta Crédito";
             this.btnTarjetaCredito.UseVisualStyleBackColor = true;
+            this.btnTarjetaCredito.Click += new System.EventHandler(this.btnTarjetaCredito_Click);
             // 
             // btnConfiguracion
             // 
@@ -91,6 +92,7 @@
             this.btnConfiguracion.TabIndex = 3;
             this.btnConfiguracion.Text = "Configuración";
             this.btnConfiguracion.UseVisualStyleBackColor = true;
+            this.btnConfiguracion.Click += new System.EventHandler(this.btnConfiguracion_Click);
             // 
             // btnServicioPublico
             // 

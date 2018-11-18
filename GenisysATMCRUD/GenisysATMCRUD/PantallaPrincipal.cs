@@ -45,5 +45,17 @@ namespace GenisysATMCRUD
             FrmCuentaCliente cuenta = new FrmCuentaCliente();
             cuenta.ShowDialog();
         }
+
+        private void btnTarjetaCredito_Click(object sender, EventArgs e)
+        {
+            FrmTarjetaCredito tarjeta = new FrmTarjetaCredito();
+            tarjeta.ShowDialog();
+        }
+
+        private void btnConfiguracion_Click(object sender, EventArgs e)
+        {
+            /*FrmConfiguracion Config = new FrmConfiguracion();
+            Config.ShowDialog();*/
+        }
     }
 }

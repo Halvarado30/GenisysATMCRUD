@@ -69,6 +69,12 @@
     <Compile Include="FrmServicioPublico.Designer.cs">
       <DependentUpon>FrmServicioPublico.cs</DependentUpon>
     </Compile>
+    <Compile Include="FrmTarjetaCredito.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmTarjetaCredito.Designer.cs">
+      <DependentUpon>FrmTarjetaCredito.cs</DependentUpon>
+    </Compile>
     <Compile Include="Models\ATM.cs" />
     <Compile Include="Models\Cliente.cs" />
     <Compile Include="Models\Conexion.cs" />
@@ -97,6 +103,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FrmServicioPublico.resx">
       <DependentUpon>FrmServicioPublico.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmTarjetaCredito.resx">
+      <DependentUpon>FrmTarjetaCredito.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="PantallaPrincipal.resx">
       <DependentUpon>PantallaPrincipal.cs</DependentUpon>
