@@ -54,8 +54,8 @@ namespace GenisysATMCRUD
 
         private void btnConfiguracion_Click(object sender, EventArgs e)
         {
-            /*FrmConfiguracion Config = new FrmConfiguracion();
-            Config.ShowDialog();*/
+            FrmConfiguracion Config = new FrmConfiguracion();
+            Config.ShowDialog();
         }
     }
 }
