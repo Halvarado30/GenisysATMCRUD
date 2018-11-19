@@ -77,6 +77,7 @@
             this.lstconfiguracion.Name = "lstconfiguracion";
             this.lstconfiguracion.Size = new System.Drawing.Size(185, 212);
             this.lstconfiguracion.TabIndex = 3;
+            this.lstconfiguracion.Click += new System.EventHandler(this.lstconfiguracion_Click);
             // 
             // lblValor
             // 

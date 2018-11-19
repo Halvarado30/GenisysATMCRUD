@@ -193,5 +193,90 @@ namespace GenisysATM.Models
                 conn.CerrarConexion();
             }
         }
+
+
+        public static bool ActualizarConfiguracion(Configuracion conf)
+        {
+            Conexion conn = new Conexion(@"(local)\sqlexpress", "GenisysATM_V2");
+            SqlCommand cmd = conn.EjecutarComando("sp_ActualizarConfiguracion");
+
+            // Definir el tipo de comando
+            cmd.CommandType = CommandType.StoredProcedure;
+
+            // Definir los parámetros necesarios
+            cmd.Parameters.Add(new SqlParameter("@nombre", SqlDbType.NChar, 50));
+            cmd.Parameters["@nombre"].Value = conf.appKey;
+
+            cmd.Parameters.Add(new SqlParameter("@descripcion", SqlDbType.NChar, 200));
+            cmd.Parameters["@descripcion"].Value = conf.descripcion;
+
+            cmd.Parameters.Add(new SqlParameter("@valor", SqlDbType.NChar,50));
+            cmd.Parameters["@valor"].Value = conf.valor;
+
+            cmd.Parameters.Add(new SqlParameter("@nombrenuevo", SqlDbType.NChar, 50));
+            cmd.Parameters["@nombrenuevo"].Value = conf.NewappKey;
+
+            try
+            {
+                // Se establece la conexión
+                conn.EstablecerConexion();
+
+                // Se ejecuta el comando
+                cmd.ExecuteNonQuery();
+
+                return true;
+            }
+            catch (SqlException ex)
+            {
+                MessageBox.Show(ex.Errors[0].ToString());
+                MessageBox.Show(ex.Message + ex.StackTrace + "Detalle de la excepción: ");
+                return false;
+            }
+            finally
+            {
+                // Se procede a cerrar la conexión
+                conn.CerrarConexion();
+            }
+        }
+
+        /// <summary>
+        /// Se encarga de eliminar un registro de configuración de la base de datos
+        /// </summary>
+        /// <param name="conf"></param>
+        /// <returns></returns>
+        public static bool EliminarConfiguracion(Configuracion conf)
+        {
+            Conexion conn = new Conexion(@"(local)\sqlexpress", "GenisysATM_V2");
+            SqlCommand cmd = conn.EjecutarComando("sp_EliminarConfiguracion");
+
+            // Definir el tipo de comando
+            cmd.CommandType = CommandType.StoredProcedure;
+
+            // Definir los parámetros necesarios
+            cmd.Parameters.Add(new SqlParameter("@nombre", SqlDbType.NChar, 50));
+            cmd.Parameters["@nombre"].Value = conf.appKey;
+
+            try
+            {
+                // Se establece la conexión con el servidor
+                conn.EstablecerConexion();
+
+                // Se ejecuta el comando
+                cmd.ExecuteNonQuery();
+
+                return true;
+            }
+            catch (SqlException ex)
+            {
+                MessageBox.Show(ex.Errors[0].ToString());
+                MessageBox.Show(ex.Message + ex.StackTrace + "Detalle de excepción: ");
+                return false;
+            }
+            finally
+            {
+                // Por último se cierra la conexión
+                conn.CerrarConexion();
+            }
+        }
     }
 }
